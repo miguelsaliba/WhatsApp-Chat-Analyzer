@@ -19,21 +19,20 @@ def deEmojify(inputString):
     return inputString.encode('ascii', 'ignore').decode('ascii')
 
 for x in f:
-    # if the day changes it recents the day counter and checks if its more than the max day
-    if (x[x.find("[")+1 : x.find(",")] != currentday):
-        if currentcount > maxperday:
-            maxperday = currentcount
-            maxday = currentday
-
-        currentday = x[x.find("[")+1 : x.find(",")]
-        currentcount = 0
-
-    # removes the date and time
-    string = (x[x.find("]")+2:])
-
 
     # checks if its a message and not just a new line
     if re.search(".+/.+/..*:..:..", x) and ": " in string:
+        # if the day changes it resets the day counter and checks if its more than the max day
+        if (x[x.find("[")+1 : x.find(",")] != currentday):
+            if currentcount > maxperday:
+                maxperday = currentcount
+                maxday = currentday
+    
+            currentday = x[x.find("[")+1 : x.find(",")]
+            currentcount = 0
+
+        # removes the date and time
+        string = (x[x.find("]")+2:])
         # check if theres a new person
         if (string.split(": ")[0] not in people):
             people[string.split(": ", 1)[0]] = 0
